@@ -13,12 +13,14 @@ class WelcomeScreen(QDialog):
         self.login.clicked.connect(self.gotoLogin)
         self.create.clicked.connect(self.gotoCreate)
 
-    def gotoLogin(self):
+    @staticmethod
+    def gotoLogin():
         login = LoginScreen()
         widget.addWidget(login)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-    def gotoCreate(self):
+    @staticmethod
+    def gotoCreate():
         create = CreateAccScreen()
         widget.addWidget(create)
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -87,8 +89,9 @@ class ListFilms(QDialog, QListWidget):
         ##self.listFilms.setResizeMode(QListWidget.)
         ##self.listFilms.takeItem()
         self.addRating.clicked.connect(self.add_sel_rating)
+        self.removeRating.clicked.connect(self.del_sel_rating)
         self.listFilms.itemDoubleClicked.connect(self.launchPopup)
-        print(aggregator.get_user_rating_films()[0]['rating_user'])
+        #print(aggregator.get_user_rating_films()[0]['rating_user'])
 
     def add_sel_rating(self):
         rating = self.spinRating.text()
@@ -96,6 +99,12 @@ class ListFilms(QDialog, QListWidget):
         if len(film) > 0:
             film = film[0]
             aggregator.edit_user_rating_film(film.text(), rating)
+
+    def del_sel_rating(self):
+        film = self.listFilms.selectedItems()
+        if len(film) > 0:
+            film = film[0]
+            aggregator.remove_user_rating_film(film.text())
 
     def launchPopup(self, item):
         content_list = aggregator.get_content_list()
@@ -130,6 +139,8 @@ class Popup(QDialog, QListWidget):
         self.labelDuration.setGeometry(QtCore.QRect(0, 450, 2000, 71))
         self.labelBudget = QLabel('Бюджет: ' + str(name.budget) + '$', self)
         self.labelBudget.setGeometry(QtCore.QRect(0, 500, 2000, 71))
+        self.labelAverageRating = QLabel('Средний рейтинг: ' + str(aggregator.average_rating_film(name.name)), self)
+        self.labelBudget.setGeometry(QtCore.QRect(0, 550, 2000, 71))
 
 
 class MainWindow(QMainWindow):

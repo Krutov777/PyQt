@@ -31,3 +31,15 @@ class Aggregator:
 
     def edit_user_rating_tv_show(self, name_film, user_rating):
         return self.user.edit_rating_tv_show(name_film, user_rating)
+
+    def remove_user_rating_film(self, name_film):
+        return self.user.remove_user_rating_film(name_film)
+
+    def remove_user_rating_tv_show(self, name_tv_show):
+        return self.user.remove_user_rating_tv_show(name_tv_show)
+
+    def average_rating_film(self, name_film):
+        return self.user.average_rating_film(name_film)
+
+    def average_rating_tv_show(self, name_tv_show):
+        return self.user.average_rating_tv_show(name_tv_show)

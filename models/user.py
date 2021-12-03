@@ -32,3 +32,15 @@ class User:
 
     def edit_rating_tv_show(self, name_tv_show, user_rating):
         return self.data_base.edit_user_rating_tv_show(self.login, name_tv_show, user_rating)
+
+    def remove_user_rating_film(self, name_film):
+        return self.data_base.delete_user_rating_film(self.login, name_film)
+
+    def remove_user_rating_tv_show(self, name_tv_show):
+        return self.data_base.delete_user_rating_tv_show(self.login, name_tv_show)
+
+    def average_rating_film(self, name_film):
+        return self.data_base.average_rating_film(name_film)
+
+    def average_rating_tv_show(self, name_tv_show):
+        return self.data_base.average_rating_tv_show(name_tv_show)

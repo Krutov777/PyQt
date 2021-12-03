@@ -108,7 +108,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;
     <string>Add rating</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="addRating_2">
+  <widget class="QPushButton" name="removeRating">
    <property name="geometry">
     <rect>
      <x>630</x>

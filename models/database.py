@@ -27,7 +27,7 @@ class DataBase:
                     select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + login + "\'"
                     cursor.execute(select_id_user)
                     id_user = cursor.fetchall()
-                    select_all_rows = 'SELECT * FROM `rating_user_film` WHERE id_user = \''\
+                    select_all_rows = 'SELECT * FROM `rating_user_film` WHERE id_user = \'' \
                                       + str(id_user[0]['id_user']) + "\'"
                     cursor.execute(select_all_rows)
                     row = cursor.fetchall()
@@ -142,16 +142,16 @@ class DataBase:
                     select_id_film = 'SELECT id_film FROM `film` WHERE name_film = \'' + name_film + "\'"
                     cursor.execute(select_id_film)
                     id_film = cursor.fetchall()
-                    select_user_rating = 'SELECT id FROM `rating_user_film` WHERE id_user = \''\
-                                         + str(id_user[0]['id_user']) + "\'"\
-                                                                        " AND id_film = \'"\
+                    select_user_rating = 'SELECT id FROM `rating_user_film` WHERE id_user = \'' \
+                                         + str(id_user[0]['id_user']) + "\'" \
+                                                                        " AND id_film = \'" \
                                          + str(id_film[0]['id_film']) + "\'"
                     cursor.execute(select_user_rating)
                     id_user_rating = cursor.fetchall()
                     if len(id_user_rating) > 0:
-                        query = 'UPDATE `rating_user_film` SET rating_user = \''\
+                        query = 'UPDATE `rating_user_film` SET rating_user = \'' \
                                 + str(user_rating) + "\'" \
-                                                     " WHERE id = \'"\
+                                                     " WHERE id = \'" \
                                 + str(id_user_rating[0]['id']) + "\'"
                         cursor.execute(query)
                         connection.commit()
@@ -176,16 +176,16 @@ class DataBase:
                     select_id_tv_show = 'SELECT id_tv_show FROM `film` WHERE name_tv_show = \'' + name_tv_show + "\'"
                     cursor.execute(select_id_tv_show)
                     id_tv_show = cursor.fetchall()
-                    select_user_rating = 'SELECT id FROM `rating_user_tv_show` WHERE id_user = \''\
-                                         + str(id_user[0]['id_user']) + "\'"\
-                                                                        " AND id_tv_show = \'"\
+                    select_user_rating = 'SELECT id FROM `rating_user_tv_show` WHERE id_user = \'' \
+                                         + str(id_user[0]['id_user']) + "\'" \
+                                                                        " AND id_tv_show = \'" \
                                          + str(id_tv_show[0]['id_tv_show']) + "\'"
                     cursor.execute(select_user_rating)
                     id_user_rating = cursor.fetchall()
                     if len(id_user_rating) > 0:
-                        query = 'UPDATE `rating_user_tv_show` SET rating_user = \''\
+                        query = 'UPDATE `rating_user_tv_show` SET rating_user = \'' \
                                 + str(user_rating) + "\'" \
-                                                     " WHERE id = \'"\
+                                                     " WHERE id = \'" \
                                 + str(id_user_rating[0]['id']) + "\'"
                         cursor.execute(query)
                         connection.commit()
@@ -199,3 +199,112 @@ class DataBase:
                 connection.close()
         except Exception as ex:
             print(ex)
+
+    def delete_user_rating_film(self, username, name_film):
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+                    select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + username + "\'"
+                    cursor.execute(select_id_user)
+                    id_user = cursor.fetchall()
+                    select_id_film = 'SELECT id_film FROM `film` WHERE name_film = \'' + name_film + "\'"
+                    cursor.execute(select_id_film)
+                    id_film = cursor.fetchall()
+                    select_user_rating = 'SELECT id FROM `rating_user_film` WHERE id_user = \'' \
+                                         + str(id_user[0]['id_user']) + "\'" \
+                                                                        " AND id_film = \'" \
+                                         + str(id_film[0]['id_film']) + "\'"
+                    cursor.execute(select_user_rating)
+                    id_user_rating = cursor.fetchall()
+                    if len(id_user_rating) > 0:
+                        query = 'DELETE FROM `rating_user_film` WHERE id_user = \'' \
+                                + str(id_user[0]['id_user']) + "\' " \
+                                                               " AND id_film = \'" \
+                                + str(id_film[0]['id_film']) + "\'"
+                        cursor.execute(query)
+                        connection.commit()
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)
+
+    def delete_user_rating_tv_show(self, username, name_tv_show):
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+                    select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + username + "\'"
+                    cursor.execute(select_id_user)
+                    id_user = cursor.fetchall()
+                    select_id_tv_show = 'SELECT id_tv_show FROM `film` WHERE name_tv_show = \'' + name_tv_show + "\'"
+                    cursor.execute(select_id_tv_show)
+                    id_tv_show = cursor.fetchall()
+                    select_user_rating = 'SELECT id FROM `rating_user_tv_show` WHERE id_user = \'' \
+                                         + str(id_user[0]['id_user']) + "\'" \
+                                                                        " AND id_tv_show = \'" \
+                                         + str(id_tv_show[0]['id_tv_show']) + "\'"
+                    cursor.execute(select_user_rating)
+                    id_user_rating = cursor.fetchall()
+                    if len(id_user_rating) > 0:
+                        query = 'DELETE FROM `rating_user_tv_show` WHERE id_user = \'' \
+                                + str(id_user[0]['id_user']) + "\' " \
+                                                               " AND id_tv_show = \'" \
+                                + str(id_tv_show[0]['id_tv_show']) + "\'"
+                        cursor.execute(query)
+                        connection.commit()
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)
+
+    def average_rating_film(self, name_film):
+        average_rating_film = "Нет оценок"
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+
+                    select_id_film = 'SELECT id_film FROM `film` WHERE name_film = \'' + name_film + "\'"
+                    cursor.execute(select_id_film)
+                    id_film = cursor.fetchall()
+                    select_rating_film = 'SELECT rating_user FROM `rating_user_film` WHERE id_film = \'' + str(id_film[0]['id_film']) + "\'"
+                    cursor.execute(select_rating_film)
+                    list_rating_film = cursor.fetchall()
+                    divider = len(list_rating_film)
+                    dividend = 0
+                    if divider > 0:
+                        for rating_film in list_rating_film:
+                            dividend = dividend + int(rating_film['rating_user'])
+                        average_rating_film = f"{dividend/divider:.{2}f}"
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)
+        return average_rating_film
+
+    def average_rating_tv_show(self, name_tv_show):
+        average_rating_tv_show = "Нет оценок"
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+                    select_id_tv_show = 'SELECT id_tv_show FROM `tv_show` WHERE name_tv_show = \'' + name_tv_show + "\'"
+                    cursor.execute(select_id_tv_show)
+                    id_tv_show = cursor.fetchall()
+                    select_rating_tv_show = 'SELECT rating_user FROM `rating_user_tv_show` ' \
+                                            'WHERE id_tv_show = \''\
+                                            + str(id_tv_show[0]['id_tv_show']) + "\'"
+                    cursor.execute(select_rating_tv_show)
+                    list_rating_tv_show = cursor.fetchall()
+                    divider = len(list_rating_tv_show)
+                    dividend = 0
+                    if divider > 0:
+                        for rating in list_rating_tv_show:
+                            dividend = dividend + int(rating['rating_user'])
+                        average_rating_tv_show = f"{dividend/divider:.{2}f}"
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)
+        return average_rating_tv_show
