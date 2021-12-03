@@ -6,7 +6,8 @@ class DataBase:
     def __init__(self):
         pass
 
-    def _connect_db(self):
+    @staticmethod
+    def _connect_db():
         connection = pymysql.connect(
             host=host,
             port=3306,
@@ -23,7 +24,11 @@ class DataBase:
             connection = self._connect_db()
             try:
                 with connection.cursor() as cursor:
-                    select_all_rows = 'SELECT * FROM `rating_user_film` WHERE login = \'' + login + "\'"
+                    select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + login + "\'"
+                    cursor.execute(select_id_user)
+                    id_user = cursor.fetchall()
+                    select_all_rows = 'SELECT * FROM `rating_user_film` WHERE id_user = \''\
+                                      + str(id_user[0]['id_user']) + "\'"
                     cursor.execute(select_all_rows)
                     row = cursor.fetchall()
                     rating_list_films = row
@@ -39,7 +44,11 @@ class DataBase:
             connection = self._connect_db()
             try:
                 with connection.cursor() as cursor:
-                    select_all_rows = 'SELECT * FROM `rating_user_tv_show` WHERE login = \'' + login + "\'"
+                    select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + login + "\'"
+                    cursor.execute(select_id_user)
+                    id_user = cursor.fetchall()
+                    select_all_rows = 'SELECT * FROM `rating_user_tv_show` WHERE id_user = \'' \
+                                      + str(id_user[0]['id_user']) + "\'"
                     cursor.execute(select_all_rows)
                     row = cursor.fetchall()
                     rating_list_tv_show = row
@@ -121,3 +130,72 @@ class DataBase:
         except Exception as ex:
             print(ex)
         return signup
+
+    def edit_user_rating_film(self, username, name_film, user_rating):
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+                    select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + username + "\'"
+                    cursor.execute(select_id_user)
+                    id_user = cursor.fetchall()
+                    select_id_film = 'SELECT id_film FROM `film` WHERE name_film = \'' + name_film + "\'"
+                    cursor.execute(select_id_film)
+                    id_film = cursor.fetchall()
+                    select_user_rating = 'SELECT id FROM `rating_user_film` WHERE id_user = \''\
+                                         + str(id_user[0]['id_user']) + "\'"\
+                                                                        " AND id_film = \'"\
+                                         + str(id_film[0]['id_film']) + "\'"
+                    cursor.execute(select_user_rating)
+                    id_user_rating = cursor.fetchall()
+                    if len(id_user_rating) > 0:
+                        query = 'UPDATE `rating_user_film` SET rating_user = \''\
+                                + str(user_rating) + "\'" \
+                                                     " WHERE id = \'"\
+                                + str(id_user_rating[0]['id']) + "\'"
+                        cursor.execute(query)
+                        connection.commit()
+                    else:
+                        query = 'INSERT INTO `rating_user_film` (id_film, id_user, rating_user) VALUES (%s, %s, %s)'
+                        val = (int(id_film[0]['id_film']), int(id_user[0]['id_user']), int(user_rating))
+                        cursor.execute(query, val)
+                        connection.commit()
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)
+
+    def edit_user_rating_tv_show(self, username, name_tv_show, user_rating):
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+                    select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + username + "\'"
+                    cursor.execute(select_id_user)
+                    id_user = cursor.fetchall()
+                    select_id_tv_show = 'SELECT id_tv_show FROM `film` WHERE name_tv_show = \'' + name_tv_show + "\'"
+                    cursor.execute(select_id_tv_show)
+                    id_tv_show = cursor.fetchall()
+                    select_user_rating = 'SELECT id FROM `rating_user_tv_show` WHERE id_user = \''\
+                                         + str(id_user[0]['id_user']) + "\'"\
+                                                                        " AND id_tv_show = \'"\
+                                         + str(id_tv_show[0]['id_tv_show']) + "\'"
+                    cursor.execute(select_user_rating)
+                    id_user_rating = cursor.fetchall()
+                    if len(id_user_rating) > 0:
+                        query = 'UPDATE `rating_user_tv_show` SET rating_user = \''\
+                                + str(user_rating) + "\'" \
+                                                     " WHERE id = \'"\
+                                + str(id_user_rating[0]['id']) + "\'"
+                        cursor.execute(query)
+                        connection.commit()
+                    else:
+                        query = 'INSERT INTO `rating_user_tv_show` (id_tv_show, id_user, rating_user)' \
+                                ' VALUES (%s, %s, %s)'
+                        val = (int(id_tv_show[0]['id_tv_show']), int(id_user[0]['id_user']), int(user_rating))
+                        cursor.execute(query, val)
+                        connection.commit()
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)

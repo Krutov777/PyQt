@@ -86,13 +86,16 @@ class ListFilms(QDialog, QListWidget):
 
         ##self.listFilms.setResizeMode(QListWidget.)
         ##self.listFilms.takeItem()
-        self.addRating.clicked.connect(self.addSelRating)
+        self.addRating.clicked.connect(self.add_sel_rating)
         self.listFilms.itemDoubleClicked.connect(self.launchPopup)
         print(aggregator.get_user_rating_films()[0]['rating_user'])
 
-    def addSelRating(self):
-        ##rating = self.spinRating.int()
-        print(self.listFilms.selectedItems())
+    def add_sel_rating(self):
+        rating = self.spinRating.text()
+        film = self.listFilms.selectedItems()
+        if len(film) > 0:
+            film = film[0]
+            aggregator.edit_user_rating_film(film.text(), rating)
 
     def launchPopup(self, item):
         content_list = aggregator.get_content_list()

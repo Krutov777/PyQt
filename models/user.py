@@ -27,4 +27,8 @@ class User:
     def get_list_tv_show(self):
         return self.data_base.get_list_tv_show_from_db()
 
+    def edit_rating_film(self, name_film, user_rating):
+        return self.data_base.edit_user_rating_film(self.login, name_film, user_rating)
 
+    def edit_rating_tv_show(self, name_tv_show, user_rating):
+        return self.data_base.edit_user_rating_tv_show(self.login, name_tv_show, user_rating)
