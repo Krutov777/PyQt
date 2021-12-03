@@ -1,11 +1,9 @@
 import sys
 
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QListWidget, QLabel, QTabWidget, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QListWidget, QLabel
 from PyQt5.uic import loadUi
-from config import *
 from models.aggregator import *
-from models.content import *
 
 
 class WelcomeScreen(QDialog):
@@ -43,7 +41,6 @@ class LoginScreen(QDialog):
         else:
             if aggregator.login(user, password):
                 self.gotoChoiceOfAction()
-                #self.gotoMainWindow()
                 print("Successfully logged in.")
                 self.error.setText("")
             else:
@@ -84,7 +81,6 @@ class ListFilms(QDialog, QListWidget):
         content_list = aggregator.get_content_list()
         list_films = content_list.list_films
 
-        ##list_tv_shows = content_list.list_tv_shows
         for film in list_films:
             self.listFilms.addItem(film.name)
 
@@ -92,7 +88,7 @@ class ListFilms(QDialog, QListWidget):
         ##self.listFilms.takeItem()
         self.addRating.clicked.connect(self.addSelRating)
         self.listFilms.itemDoubleClicked.connect(self.launchPopup)
-        print(aggregator.user.get_rating_list_film()[0]['rating_user'])
+        print(aggregator.get_user_rating_films()[0]['rating_user'])
 
     def addSelRating(self):
         ##rating = self.spinRating.int()
@@ -127,9 +123,9 @@ class Popup(QDialog, QListWidget):
         self.labelRating.setGeometry(QtCore.QRect(0, 350, 2000, 71))
         self.labelDirector = QLabel('Режиссер: ' + name.director, self)
         self.labelDirector.setGeometry(QtCore.QRect(0, 400, 2000, 71))
-        self.labelDuration = QLabel('Длительность: ' + str(name.duration)+'min', self)
+        self.labelDuration = QLabel('Длительность: ' + str(name.duration) + 'min', self)
         self.labelDuration.setGeometry(QtCore.QRect(0, 450, 2000, 71))
-        self.labelBudget = QLabel('Бюджет: ' + str(name.budget)+'$', self)
+        self.labelBudget = QLabel('Бюджет: ' + str(name.budget) + '$', self)
         self.labelBudget.setGeometry(QtCore.QRect(0, 500, 2000, 71))
 
 
@@ -151,6 +147,7 @@ class MainWindow(QMainWindow):
         #     self.addItem(film)
         #
         # self.itemDoubleClicked.connect(self.launchPopup)
+
 
 #     def launchPopup(self, item):
 #         pop = Popup(item.name.text(), self)
@@ -200,7 +197,7 @@ class CreateAccScreen(QDialog):
 
 
 # main
-aggregator = Aggregator(host, userDb, passwordDb, db_name)
+aggregator = Aggregator()
 app = QApplication(sys.argv)
 welcome = WelcomeScreen()
 widget = QtWidgets.QStackedWidget()
