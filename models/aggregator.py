@@ -43,3 +43,9 @@ class Aggregator:
 
     def average_rating_tv_show(self, name_tv_show):
         return self.user.average_rating_tv_show(name_tv_show)
+
+    def number_user_rating_film(self, name_film):
+        return self.user.number_user_rating_film(name_film)
+
+    def number_user_rating_tv_show(self, name_tv_show):
+        return self.user.number_user_rating_tv_show(name_tv_show)

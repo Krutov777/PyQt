@@ -283,6 +283,46 @@ class DataBase:
             print(ex)
         return average_rating_film
 
+    def number_user_rating_film(self, name_film):
+        number_rating = 0
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+
+                    select_id_film = 'SELECT id_film FROM `film` WHERE name_film = \'' + name_film + "\'"
+                    cursor.execute(select_id_film)
+                    id_film = cursor.fetchall()
+                    select_rating_film = 'SELECT rating_user FROM `rating_user_film` WHERE id_film = \'' + str(id_film[0]['id_film']) + "\'"
+                    cursor.execute(select_rating_film)
+                    list_rating_film = cursor.fetchall()
+                    number_rating = len(list_rating_film)
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)
+        return number_rating
+
+    def number_user_rating_tv_show(self, name_tv_show):
+        number_rating = 0
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+
+                    select_id_tv_show = 'SELECT id_tv_show FROM `tv_show` WHERE name_tv_show = \'' + name_tv_show + "\'"
+                    cursor.execute(select_id_tv_show)
+                    id_tv_show = cursor.fetchall()
+                    select_rating_tv_show = 'SELECT rating_user FROM `rating_user_tv_show` WHERE id_tv_show = \'' + str(id_tv_show[0]['id_tv_show']) + "\'"
+                    cursor.execute(select_rating_tv_show)
+                    list_rating_tv_show = cursor.fetchall()
+                    number_rating = len(list_rating_tv_show)
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)
+        return str(number_rating)
+
     def average_rating_tv_show(self, name_tv_show):
         average_rating_tv_show = "Нет оценок"
         try:

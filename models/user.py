@@ -44,3 +44,9 @@ class User:
 
     def average_rating_tv_show(self, name_tv_show):
         return self.data_base.average_rating_tv_show(name_tv_show)
+
+    def number_user_rating_film(self, name_film):
+        return self.data_base.number_user_rating_film(name_film)
+
+    def number_user_rating_tv_show(self, name_tv_show):
+        return self.data_base.number_user_rating_tv_show(name_tv_show)

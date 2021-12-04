@@ -1,7 +1,9 @@
 import sys
 
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QListWidget, QLabel
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QListWidget, QLabel, QListWidgetItem
 from PyQt5.uic import loadUi
 from models.aggregator import *
 
@@ -54,12 +56,6 @@ class LoginScreen(QDialog):
         widget.addWidget(choiceOfAction)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
-    def gotoMainWindow(self):
-        mainWindow = MainWindow()
-        self.login.clicked.connect(self.gotoMainWindow)
-        widget.addWidget(mainWindow)
-        widget.setCurrentIndex(widget.currentIndex() + 1)
-
 
 class ChoiceOfAction(QDialog):
     def __init__(self):
@@ -82,16 +78,34 @@ class ListFilms(QDialog, QListWidget):
         loadUi("UI/films.ui", self)
         content_list = aggregator.get_content_list()
         list_films = content_list.list_films
-
+        self.listFilms.setViewMode(QListWidget.IconMode)
+        self.listFilms.setResizeMode(QListWidget.Adjust)
+        self.listFilms.setSpacing(10)
+        icon_size = QSize()
+        icon_size.setHeight(150)
+        icon_size.setWidth(150)
+        self.listFilms.setIconSize(icon_size)
         for film in list_films:
-            self.listFilms.addItem(film.name)
+            image = QIcon('/Users/i.krutov/Desktop/mattew.jpg')
+            item = QListWidgetItem(film.name)
+            item.setIcon(image)
+            item.setSizeHint(QSize(200, 200))
+            #item.setTextAlignment()
 
+            self.listFilms.addItem(item)
         ##self.listFilms.setResizeMode(QListWidget.)
         ##self.listFilms.takeItem()
         self.addRating.clicked.connect(self.add_sel_rating)
         self.removeRating.clicked.connect(self.del_sel_rating)
         self.listFilms.itemDoubleClicked.connect(self.launchPopup)
+        self.back.clicked.connect(self.goto_choice_of_action)
         #print(aggregator.get_user_rating_films()[0]['rating_user'])
+
+    @staticmethod
+    def goto_choice_of_action():
+        choice_of_action = ChoiceOfAction()
+        widget.addWidget(choice_of_action)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def add_sel_rating(self):
         rating = self.spinRating.text()
@@ -141,38 +155,6 @@ class Popup(QDialog, QListWidget):
         self.labelBudget.setGeometry(QtCore.QRect(0, 500, 2000, 71))
         self.labelAverageRating = QLabel('Средний рейтинг: ' + str(aggregator.average_rating_film(name.name)), self)
         self.labelBudget.setGeometry(QtCore.QRect(0, 550, 2000, 71))
-
-
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        loadUi("UI/mainwindow.ui", self)
-
-        # lst = ['123', 'vcdf']
-        # Items List
-        # self.listWidget = QListWidget()
-        # self.listWidget_2 = QListWidget()
-        # for el in lst:
-        #     self.listWidget.addItem(el)
-        # for el in lst:
-        #     self.listWidget_2.addItem(el)
-        # self.listWidget_2.itemClicked.connect(self.launchPopup)
-        # for film in aggregator.contentList.listFilms:
-        #     self.addItem(film)
-        #
-        # self.itemDoubleClicked.connect(self.launchPopup)
-
-
-#     def launchPopup(self, item):
-#         pop = Popup(item.name.text(), self)
-#         pop.show()
-#
-#
-# class Popup(QDialog):
-#     def __init__(self, name, parent):
-#         super().__init__(parent)
-#         self.resize(600, 300)
-#         self.label = QLabel(name, self)
 
 
 class CreateAccScreen(QDialog):
