@@ -20,6 +20,12 @@ class Aggregator:
     def signup(self, username, password):
         return self.user.signup(username, password)
 
+    def get_user_rating_film(self, name_film):
+        return str(self.user.get_user_rating_film(name_film))
+
+    def get_user_rating_tv(self, name_tv):
+        return str(self.user.get_user_rating_tv_show(name_tv))
+
     def get_user_rating_films(self):
         return self.user.get_user_rating_films()
 

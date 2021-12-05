@@ -2,7 +2,7 @@ import sys
 
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QListWidget, QLabel, QListWidgetItem
 from PyQt5.uic import loadUi
 from models.aggregator import *
@@ -61,12 +61,19 @@ class ChoiceOfAction(QDialog):
     def __init__(self):
         super(ChoiceOfAction, self).__init__()
         loadUi("UI/choiceofaction.ui", self)
-        self.listFilms.clicked.connect(self.displayList)
+        self.listFilms.clicked.connect(self.display_list_films)
+        self.listTv.clicked.connect(self.display_list_tv)
 
-    def displayList(self):
-        listFilms = ListFilms()
-        self.listFilms.clicked.connect(self.displayList)
-        widget.addWidget(listFilms)
+    def display_list_films(self):
+        list_films = ListFilms()
+        self.listFilms.clicked.connect(self.display_list_films)
+        widget.addWidget(list_films)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def display_list_tv(self):
+        list_tv = ListTv()
+        self.listTv.clicked.connect(self.display_list_tv)
+        widget.addWidget(list_tv)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
@@ -90,16 +97,12 @@ class ListFilms(QDialog, QListWidget):
             item = QListWidgetItem(film.name)
             item.setIcon(image)
             item.setSizeHint(QSize(200, 200))
-            #item.setTextAlignment()
-
             self.listFilms.addItem(item)
-        ##self.listFilms.setResizeMode(QListWidget.)
-        ##self.listFilms.takeItem()
+
         self.addRating.clicked.connect(self.add_sel_rating)
         self.removeRating.clicked.connect(self.del_sel_rating)
-        self.listFilms.itemDoubleClicked.connect(self.launchPopup)
+        self.listFilms.itemDoubleClicked.connect(self.launch_more_info)
         self.back.clicked.connect(self.goto_choice_of_action)
-        #print(aggregator.get_user_rating_films()[0]['rating_user'])
 
     @staticmethod
     def goto_choice_of_action():
@@ -120,41 +123,144 @@ class ListFilms(QDialog, QListWidget):
             film = film[0]
             aggregator.remove_user_rating_film(film.text())
 
-    def launchPopup(self, item):
+    def launch_more_info(self, item):
         content_list = aggregator.get_content_list()
         list_films = content_list.list_films
         for film in list_films:
             if film.name == item.text():
-                pop = Popup(film, self)
+                pop = MoreInfoForFilm(film, self)
                 pop.show()
 
 
-class Popup(QDialog, QListWidget):
-    def __init__(self, name, parent):
+class MoreInfoForFilm(QDialog):
+    def __init__(self, film, parent):
         super().__init__(parent)
+        loadUi("UI/moreInfoForFilm.ui", self)
+        self.name_film.setText(film.name)
+        self.year.setText(str(film.year))
+        self.country.setText(film.country)
+        self.director.setText(film.director)
+        self.duration.setText(str(film.duration)+' min')
+        self.genre.setText(film.genre)
+        self.budget.setText(str(film.budget) + ' $$$')
+        self.rating.setText(str(film.rating))
+        self.description.setText(film.description)
+        self.average_rating.setText(str(aggregator.average_rating_film(film.name)))
+        self.number_rating.setText(str(aggregator.number_user_rating_film(film.name)))
+        self.my_rating.setText(str(aggregator.get_user_rating_film(film.name)))
+
+        image = QPixmap('/Users/i.krutov/Desktop/mattew.jpg')
+        self.image.setPixmap(image.scaledToWidth(312))
+
+        self.add_rating.clicked.connect(self.add_rating_film)
+        self.remove_rating.clicked.connect(self.del_rating_film)
+
+    def add_rating_film(self):
+        rating = self.spinRating.text()
+        if len(rating) > 0:
+            aggregator.edit_user_rating_film(self.name_film.text(), rating)
+            self.average_rating.setText(str(aggregator.average_rating_film(self.name_film.text())))
+            self.number_rating.setText(str(aggregator.number_user_rating_film(self.name_film.text())))
+            self.my_rating.setText(str(aggregator.get_user_rating_film(self.name_film.text())))
+
+    def del_rating_film(self):
+        aggregator.remove_user_rating_film(self.name_film.text())
+        self.average_rating.setText(str(aggregator.average_rating_film(self.name_film.text())))
+        self.number_rating.setText(str(aggregator.number_user_rating_film(self.name_film.text())))
+        self.my_rating.setText(str(aggregator.get_user_rating_film(self.name_film.text())))
+
+
+class ListTv(QDialog, QListWidget):
+    def __init__(self):
+        super(ListTv, self).__init__()
         self.resize(1200, 800)
-        self.labelTitle = QLabel('Подробнее о фильме', self)
-        self.labelTitle.setGeometry(QtCore.QRect(0, 0, 1000, 71))
-        self.labelName = QLabel('Название фильма: ' + name.name, self)
-        self.labelName.setGeometry(QtCore.QRect(0, 100, 1000, 71))
-        self.labelGenre = QLabel('Жанр: ' + name.genre, self)
-        self.labelGenre.setGeometry(QtCore.QRect(0, 150, 1000, 71))
-        self.labelDescription = QLabel('Описание: ' + name.description, self)
-        self.labelDescription.setGeometry(QtCore.QRect(0, 200, 2000, 71))
-        self.labelCountry = QLabel('Страна: ' + name.country, self)
-        self.labelCountry.setGeometry(QtCore.QRect(0, 250, 2000, 71))
-        self.labelYear = QLabel('Год: ' + str(name.year), self)
-        self.labelYear.setGeometry((QtCore.QRect(0, 300, 2000, 71)))
-        self.labelRating = QLabel('Рейтинг: ' + str(name.rating), self)
-        self.labelRating.setGeometry(QtCore.QRect(0, 350, 2000, 71))
-        self.labelDirector = QLabel('Режиссер: ' + name.director, self)
-        self.labelDirector.setGeometry(QtCore.QRect(0, 400, 2000, 71))
-        self.labelDuration = QLabel('Длительность: ' + str(name.duration) + 'min', self)
-        self.labelDuration.setGeometry(QtCore.QRect(0, 450, 2000, 71))
-        self.labelBudget = QLabel('Бюджет: ' + str(name.budget) + '$', self)
-        self.labelBudget.setGeometry(QtCore.QRect(0, 500, 2000, 71))
-        self.labelAverageRating = QLabel('Средний рейтинг: ' + str(aggregator.average_rating_film(name.name)), self)
-        self.labelBudget.setGeometry(QtCore.QRect(0, 550, 2000, 71))
+        self.setStyleSheet('font-size: 40px')
+        loadUi("UI/tv.ui", self)
+        content_list = aggregator.get_content_list()
+        list_tv = content_list.list_tv_shows
+        self.listTv.setViewMode(QListWidget.IconMode)
+        self.listTv.setResizeMode(QListWidget.Adjust)
+        self.listTv.setSpacing(10)
+        icon_size = QSize()
+        icon_size.setHeight(150)
+        icon_size.setWidth(150)
+        self.listTv.setIconSize(icon_size)
+        for tv in list_tv:
+            image = QIcon('/Users/i.krutov/Desktop/mattew.jpg')
+            item = QListWidgetItem(tv.name)
+            item.setIcon(image)
+            item.setSizeHint(QSize(200, 200))
+            self.listTv.addItem(item)
+
+        self.addRating.clicked.connect(self.add_sel_rating)
+        self.removeRating.clicked.connect(self.del_sel_rating)
+        self.listTv.itemDoubleClicked.connect(self.launch_more_info)
+        self.back.clicked.connect(self.goto_choice_of_action)
+
+    @staticmethod
+    def goto_choice_of_action():
+        choice_of_action = ChoiceOfAction()
+        widget.addWidget(choice_of_action)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def add_sel_rating(self):
+        rating = self.spinRating.text()
+        tv = self.listTv.selectedItems()
+        if len(tv) > 0:
+            tv = tv[0]
+            aggregator.edit_user_rating_tv_show(tv.text(), rating)
+
+    def del_sel_rating(self):
+        tv = self.listTv.selectedItems()
+        if len(tv) > 0:
+            tv = tv[0]
+            aggregator.remove_user_rating_tv_show(tv.text())
+
+    def launch_more_info(self, item):
+        content_list = aggregator.get_content_list()
+        list_tv = content_list.list_tv_shows
+        for tv in list_tv:
+            if tv.name == item.text():
+                pop = MoreInfoForTv(tv, self)
+                pop.show()
+
+
+class MoreInfoForTv(QDialog):
+    def __init__(self, tv, parent):
+        super().__init__(parent)
+        loadUi("UI/moreInfoForTv.ui", self)
+        self.name_tv.setText(tv.name)
+        self.year.setText(str(tv.year))
+        self.country.setText(tv.country)
+        self.director.setText(tv.director)
+        self.number_seasons.setText(str(tv.number_seasons))
+        self.genre.setText(tv.genre)
+        self.number_episodes.setText(str(tv.number_episodes))
+        self.rating.setText(str(tv.rating))
+        self.description.setText(tv.description)
+        self.average_rating.setText(str(aggregator.average_rating_tv_show(tv.name)))
+        self.number_rating.setText(str(aggregator.number_user_rating_tv_show(tv.name)))
+        self.my_rating.setText(str(aggregator.get_user_rating_tv(tv.name)))
+
+        image = QPixmap('/Users/i.krutov/Desktop/mattew.jpg')
+        self.image.setPixmap(image.scaledToWidth(312))
+
+        self.add_rating.clicked.connect(self.add_rating_tv)
+        self.remove_rating.clicked.connect(self.del_rating_tv)
+
+    def add_rating_tv(self):
+        rating = self.spinRating.text()
+        if len(rating) > 0:
+            aggregator.edit_user_rating_tv_show(self.name_tv.text(), rating)
+            self.average_rating.setText(str(aggregator.average_rating_tv_show(self.name_tv.text())))
+            self.number_rating.setText(str(aggregator.number_user_rating_tv_show(self.name_tv.text())))
+            self.my_rating.setText(str(aggregator.get_user_rating_tv(self.name_tv.text())))
+
+    def del_rating_tv(self):
+        aggregator.remove_user_rating_tv_show(self.name_tv.text())
+        self.average_rating.setText(str(aggregator.average_rating_tv_show(self.name_tv.text())))
+        self.number_rating.setText(str(aggregator.number_user_rating_tv_show(self.name_tv.text())))
+        self.my_rating.setText(str(aggregator.get_user_rating_tv(self.name_tv.text())))
 
 
 class CreateAccScreen(QDialog):
@@ -179,7 +285,6 @@ class CreateAccScreen(QDialog):
         else:
             if aggregator.signup(user, password):
                 self.gotoLogin()
-
                 print("Successfully signup in.")
 
             else:

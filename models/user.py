@@ -50,3 +50,9 @@ class User:
 
     def number_user_rating_tv_show(self, name_tv_show):
         return self.data_base.number_user_rating_tv_show(name_tv_show)
+
+    def get_user_rating_film(self, name_film):
+        return self.data_base.get_user_rating_film(self.login, name_film)
+
+    def get_user_rating_tv_show(self, name_tv):
+        return self.data_base.get_user_rating_tv(self.login, name_tv)

@@ -173,7 +173,7 @@ class DataBase:
                     select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + username + "\'"
                     cursor.execute(select_id_user)
                     id_user = cursor.fetchall()
-                    select_id_tv_show = 'SELECT id_tv_show FROM `film` WHERE name_tv_show = \'' + name_tv_show + "\'"
+                    select_id_tv_show = 'SELECT id_tv_show FROM `tv_show` WHERE name_tv_show = \'' + name_tv_show + "\'"
                     cursor.execute(select_id_tv_show)
                     id_tv_show = cursor.fetchall()
                     select_user_rating = 'SELECT id FROM `rating_user_tv_show` WHERE id_user = \'' \
@@ -237,7 +237,7 @@ class DataBase:
                     select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + username + "\'"
                     cursor.execute(select_id_user)
                     id_user = cursor.fetchall()
-                    select_id_tv_show = 'SELECT id_tv_show FROM `film` WHERE name_tv_show = \'' + name_tv_show + "\'"
+                    select_id_tv_show = 'SELECT id_tv_show FROM `tv_show` WHERE name_tv_show = \'' + name_tv_show + "\'"
                     cursor.execute(select_id_tv_show)
                     id_tv_show = cursor.fetchall()
                     select_user_rating = 'SELECT id FROM `rating_user_tv_show` WHERE id_user = \'' \
@@ -348,3 +348,55 @@ class DataBase:
         except Exception as ex:
             print(ex)
         return average_rating_tv_show
+
+    def get_user_rating_film(self, username, name_film):
+        rating = 'No'
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+                    select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + username + "\'"
+                    cursor.execute(select_id_user)
+                    id_user = cursor.fetchall()
+                    select_id_film = 'SELECT id_film FROM `film` WHERE name_film = \'' + name_film + "\'"
+                    cursor.execute(select_id_film)
+                    id_film = cursor.fetchall()
+                    select_user_rating = 'SELECT rating_user FROM `rating_user_film` WHERE id_user = \'' \
+                                         + str(id_user[0]['id_user']) + "\'" \
+                                                                        " AND id_film = \'" \
+                                         + str(id_film[0]['id_film']) + "\'"
+                    cursor.execute(select_user_rating)
+                    user_rating = cursor.fetchall()
+                    if len(user_rating) > 0:
+                        rating = user_rating[0]['rating_user']
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)
+        return rating
+
+    def get_user_rating_tv(self, username, name):
+        rating = 'No'
+        try:
+            connection = self._connect_db()
+            try:
+                with connection.cursor() as cursor:
+                    select_id_user = 'SELECT id_user FROM `user` WHERE login = \'' + username + "\'"
+                    cursor.execute(select_id_user)
+                    id_user = cursor.fetchall()
+                    select_id_tv = 'SELECT id_tv_show FROM `tv_show` WHERE name_tv_show = \'' + name + "\'"
+                    cursor.execute(select_id_tv)
+                    id_tv = cursor.fetchall()
+                    select_user_rating = 'SELECT rating_user FROM `rating_user_tv_show` WHERE id_user = \'' \
+                                         + str(id_user[0]['id_user']) + "\'" \
+                                                                        " AND id_tv_show = \'" \
+                                         + str(id_tv[0]['id_tv_show']) + "\'"
+                    cursor.execute(select_user_rating)
+                    user_rating = cursor.fetchall()
+                    if len(user_rating) > 0:
+                        rating = user_rating[0]['rating_user']
+            finally:
+                connection.close()
+        except Exception as ex:
+            print(ex)
+        return rating

@@ -19,7 +19,7 @@ class TvShow:
     def __init__(
             self, name, description,
             genre, country, year, rating,
-            director, numberEpisodes, numberSeasons
+            director, number_episodes, number_seasons
     ):
         self.name = name
         self.description = description
@@ -28,8 +28,8 @@ class TvShow:
         self.year = year
         self.rating = rating
         self.director = director
-        self.numberEpisodes = numberEpisodes
-        self.numberSeasons = numberSeasons
+        self.number_episodes = number_episodes
+        self.number_seasons = number_seasons
 
 
 class ContentList:

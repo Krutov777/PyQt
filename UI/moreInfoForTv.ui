@@ -45,7 +45,7 @@ background-color:qlineargradient(spread:pad, x1:0.091, y1:0.101636, x2:0.991379,
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,0,0,0">
      <item>
-      <widget class="QLabel" name="name_film">
+      <widget class="QLabel" name="name_tv">
        <property name="styleSheet">
         <string notr="true">background-color:rgba(0,0,0,0);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
@@ -91,7 +91,7 @@ font: 9pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
          <property name="styleSheet">
           <string notr="true">background-color:rgba(0,0,0,0);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
-font: 12pt &quot;MS Shell Dlg 2&quot;;  color:rgb(0, 255, 0)</string>
+font: 12pt &quot;MS Shell Dlg 2&quot;; color:rgb(0, 255, 0)</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; color:#56a830;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -126,7 +126,7 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;  color:rgb(0, 255, 0)</string>
          <property name="styleSheet">
           <string notr="true">background-color:rgba(0,0,0,0);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
-font: 7pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
+font: 9pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:7pt; color:#6c798c;&quot;&gt;number of ratings&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -138,7 +138,7 @@ font: 7pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
          <property name="styleSheet">
           <string notr="true">background-color:rgba(0,0,0,0);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
-font: 8pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
+font: 10pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#6c798c;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -185,7 +185,7 @@ font: 9pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
          <property name="styleSheet">
           <string notr="true">background-color:rgba(0,0,0,0);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
-font: 12pt &quot;MS Shell Dlg 2&quot;;  color:rgb(0, 255, 0)</string>
+font: 12pt &quot;MS Shell Dlg 2&quot;; color:rgb(0, 255, 0)</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:20pt; color:#cf9332;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -455,19 +455,19 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;
 font: 12pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Duration&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rating&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLabel" name="duration">
+          <widget class="QLabel" name="rating">
            <property name="styleSheet">
             <string notr="true">background-color:rgba(0,0,0,0);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
 font: 12pt &quot;MS Shell Dlg 2&quot;; </string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;duration&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;rating&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -479,19 +479,19 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;
 font: 12pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Budget&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number episodes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLabel" name="budget">
+          <widget class="QLabel" name="number_episodes">
            <property name="styleSheet">
             <string notr="true">background-color:rgba(0,0,0,0);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
 font: 12pt &quot;MS Shell Dlg 2&quot;; </string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;budget&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;number episodes&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -503,19 +503,19 @@ font: 12pt &quot;MS Shell Dlg 2&quot;;
 font: 12pt &quot;MS Shell Dlg 2&quot;; color:rgb(255, 255, 255)</string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Rating imdb&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Number seasons&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
          <item row="6" column="1">
-          <widget class="QLabel" name="rating">
+          <widget class="QLabel" name="number_seasons">
            <property name="styleSheet">
             <string notr="true">background-color:rgba(0,0,0,0);
 font: 12pt &quot;MS Shell Dlg 2&quot;;
 font: 12pt &quot;MS Shell Dlg 2&quot;; </string>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;rating imdb&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;number seasons&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
