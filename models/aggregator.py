@@ -1,3 +1,6 @@
+import requests
+from PyQt5.QtGui import QImage, QIcon, QPixmap
+
 from models.content import ContentList
 from models.user import User
 
@@ -55,3 +58,16 @@ class Aggregator:
 
     def number_user_rating_tv_show(self, name_tv_show):
         return self.user.number_user_rating_tv_show(name_tv_show)
+
+    @staticmethod
+    def parse_image(url):
+        image = QImage()
+        if len(url) > 0:
+            r = requests.get(url, stream=True)
+            if r.status_code == 200:
+                image.loadFromData(r.content)
+                icon = QPixmap(image)
+                return icon
+        else:
+            icon = QPixmap('/Users/i.krutov/PycharmProjects/pythonProjects/pyqt/images/not_found.jpg')
+            return icon

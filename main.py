@@ -1,9 +1,10 @@
 import sys
 
-from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QDialog, QApplication, QMainWindow, QListWidget, QLabel, QListWidgetItem
+import requests as requests
+from PyQt5 import QtWidgets
+from PyQt5.QtCore import QSize
+from PyQt5.QtGui import QIcon, QPixmap, QImage
+from PyQt5.QtWidgets import QDialog, QApplication, QListWidget, QListWidgetItem
 from PyQt5.uic import loadUi
 from models.aggregator import *
 
@@ -92,10 +93,10 @@ class ListFilms(QDialog, QListWidget):
         icon_size.setHeight(150)
         icon_size.setWidth(150)
         self.listFilms.setIconSize(icon_size)
+        self.listFilms.setMovement(QListWidget.Static)
         for film in list_films:
-            image = QIcon('/Users/i.krutov/Desktop/mattew.jpg')
             item = QListWidgetItem(film.name)
-            item.setIcon(image)
+            item.setIcon(QIcon(aggregator.parse_image(film.url)))
             item.setSizeHint(QSize(200, 200))
             self.listFilms.addItem(item)
 
@@ -149,7 +150,7 @@ class MoreInfoForFilm(QDialog):
         self.number_rating.setText(str(aggregator.number_user_rating_film(film.name)))
         self.my_rating.setText(str(aggregator.get_user_rating_film(film.name)))
 
-        image = QPixmap('/Users/i.krutov/Desktop/mattew.jpg')
+        image = QPixmap(aggregator.parse_image(film.url))
         self.image.setPixmap(image.scaledToWidth(312))
 
         self.add_rating.clicked.connect(self.add_rating_film)
@@ -185,10 +186,10 @@ class ListTv(QDialog, QListWidget):
         icon_size.setHeight(150)
         icon_size.setWidth(150)
         self.listTv.setIconSize(icon_size)
+        self.listTv.setMovement(QListWidget.Static)
         for tv in list_tv:
-            image = QIcon('/Users/i.krutov/Desktop/mattew.jpg')
             item = QListWidgetItem(tv.name)
-            item.setIcon(image)
+            item.setIcon(QIcon(aggregator.parse_image(tv.url)))
             item.setSizeHint(QSize(200, 200))
             self.listTv.addItem(item)
 
@@ -242,7 +243,7 @@ class MoreInfoForTv(QDialog):
         self.number_rating.setText(str(aggregator.number_user_rating_tv_show(tv.name)))
         self.my_rating.setText(str(aggregator.get_user_rating_tv(tv.name)))
 
-        image = QPixmap('/Users/i.krutov/Desktop/mattew.jpg')
+        image = QPixmap(aggregator.parse_image(tv.url))
         self.image.setPixmap(image.scaledToWidth(312))
 
         self.add_rating.clicked.connect(self.add_rating_tv)
