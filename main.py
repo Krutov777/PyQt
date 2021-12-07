@@ -1,9 +1,8 @@
 import sys
 
-import requests as requests
 from PyQt5 import QtWidgets
 from PyQt5.QtCore import QSize
-from PyQt5.QtGui import QIcon, QPixmap, QImage
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog, QApplication, QListWidget, QListWidgetItem
 from PyQt5.uic import loadUi
 from models.aggregator import *
@@ -13,17 +12,17 @@ class WelcomeScreen(QDialog):
     def __init__(self):
         super(WelcomeScreen, self).__init__()
         loadUi("UI/welcomescreen.ui", self)
-        self.login.clicked.connect(self.gotoLogin)
-        self.create.clicked.connect(self.gotoCreate)
+        self.login.clicked.connect(self.goto_login)
+        self.create.clicked.connect(self.goto_create)
 
     @staticmethod
-    def gotoLogin():
+    def goto_login():
         login = LoginScreen()
         widget.addWidget(login)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
     @staticmethod
-    def gotoCreate():
+    def goto_create():
         create = CreateAccScreen()
         widget.addWidget(create)
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -34,10 +33,10 @@ class LoginScreen(QDialog):
         super(LoginScreen, self).__init__()
         loadUi("UI/login.ui", self)
         self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.login.clicked.connect(self.loginFunction)
+        self.login.clicked.connect(self.login_function)
         self.back.clicked.connect(self.goto_welcome_screen)
 
-    def loginFunction(self):
+    def login_function(self):
         user = self.emailfield.text()
         password = self.passwordfield.text()
 
@@ -46,16 +45,16 @@ class LoginScreen(QDialog):
 
         else:
             if aggregator.login(user, password):
-                self.gotoChoiceOfAction()
+                self.goto_choice_of_action()
                 print("Successfully logged in.")
                 self.error.setText("")
             else:
                 self.error.setText("Invalid username or password")
 
-    def gotoChoiceOfAction(self):
-        choiceOfAction = ChoiceOfAction()
-        self.login.clicked.connect(self.gotoChoiceOfAction)
-        widget.addWidget(choiceOfAction)
+    def goto_choice_of_action(self):
+        choice_of_action = ChoiceOfAction()
+        self.login.clicked.connect(self.goto_choice_of_action)
+        widget.addWidget(choice_of_action)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
     @staticmethod
@@ -286,31 +285,31 @@ class CreateAccScreen(QDialog):
         loadUi("UI/createacc.ui", self)
         self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
         self.confirmpasswordfield.setEchoMode(QtWidgets.QLineEdit.Password)
-        self.signup.clicked.connect(self.signupFunction)
+        self.signup.clicked.connect(self.signup_function)
         self.back.clicked.connect(self.goto_welcome_screen)
 
-    def signupFunction(self):
+    def signup_function(self):
         user = self.emailfield.text()
         password = self.passwordfield.text()
-        confirmPassword = self.confirmpasswordfield.text()
+        confirm_password = self.confirmpasswordfield.text()
 
-        if len(user) == 0 or len(password) == 0 or len(confirmPassword) == 0:
+        if len(user) == 0 or len(password) == 0 or len(confirm_password) == 0:
             self.error.setText("Please fill in all inputs.")
 
-        elif password != confirmPassword:
+        elif password != confirm_password:
             self.error.setText("Passwords do not match.")
 
         else:
             if aggregator.signup(user, password):
-                self.gotoLogin()
+                self.goto_login()
                 print("Successfully signup in.")
 
             else:
                 self.error.setText("User with this name is already registered")
 
-    def gotoLogin(self):
+    def goto_login(self):
         login = LoginScreen()
-        self.signup.clicked.connect(self.gotoLogin)
+        self.signup.clicked.connect(self.goto_login)
         widget.addWidget(login)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
