@@ -1,6 +1,5 @@
 import requests
-from PyQt5.QtGui import QImage, QIcon, QPixmap
-
+from PyQt5.QtGui import QImage, QPixmap
 from models.content import ContentList
 from models.user import User
 

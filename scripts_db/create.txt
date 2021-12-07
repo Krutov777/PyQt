@@ -1,0 +1,74 @@
+DROP DATABASE oopCourseProject;
+CREATE DATABASE IF NOT EXISTS oopCourseProject;
+USE oopCourseProject;
+
+CREATE TABLE IF NOT EXISTS user (
+    id_user INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY, 
+    login VARCHAR(30) NOT NULL UNIQUE,
+    password VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS film (
+     id_film INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY, 
+     name_film VARCHAR(30) NOT NULL UNIQUE,
+	 description_film VARCHAR(2000) NOT NULL,
+	 genre VARCHAR(30) NOT NULL,
+	 country VARCHAR(30) NOT NULL,
+	 year_film INT DEFAULT NULL,
+	 rating DECIMAL(2,1),
+     director VARCHAR(100) NOT NULL,
+	 duration DECIMAL(4,0),
+	 budget INT DEFAULT NULL,
+     url VARCHAR(2048) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS tv_show (
+     id_tv_show INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY, 
+     name_tv_show VARCHAR(30) NOT NULL UNIQUE,
+	 description_tv_show VARCHAR(2000) NOT NULL,
+	 genre VARCHAR(30) NOT NULL,
+	 country VARCHAR(30) NOT NULL,
+	 year_tv_show INT DEFAULT NULL,
+	 rating DECIMAL(2,1),
+     director VARCHAR(100) NOT NULL,
+	 number_episodes DECIMAL(2,0),
+	 number_seasons DECIMAL(2,0),
+     url VARCHAR(2048) NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS rating_user_film (
+     id INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY, 
+	 rating_user DECIMAL(2,0),
+     id_film INT DEFAULT NULL,
+     id_user INT DEFAULT NULL,
+     CONSTRAINT fk_user_in_rating_user_film FOREIGN KEY (id_user)
+		REFERENCES user (id_user)
+			ON DELETE CASCADE 
+			ON UPDATE CASCADE,
+	 CONSTRAINT fk_film_in_rating_user_film FOREIGN KEY (id_film)
+		 REFERENCES film (id_film)
+			ON DELETE CASCADE
+			ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS rating_user_tv_show (
+     id INT NOT NULL AUTO_INCREMENT
+		PRIMARY KEY, 
+	 rating_user DECIMAL(2,0),
+     id_tv_show INT DEFAULT NULL,
+     id_user INT DEFAULT NULL,
+     CONSTRAINT fk_user_in_rating_user_tv_show FOREIGN KEY (id_user)
+		REFERENCES user (id_user)
+			ON DELETE CASCADE 
+			ON UPDATE CASCADE,
+	 CONSTRAINT fk_tv_show_in_rating_user_tv_show FOREIGN KEY (id_tv_show)
+		 REFERENCES tv_show (id_tv_show)
+			ON DELETE CASCADE
+			ON UPDATE CASCADE
+);
+

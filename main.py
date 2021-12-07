@@ -306,7 +306,7 @@ class CreateAccScreen(QDialog):
                 print("Successfully signup in.")
 
             else:
-                print("User with this name is already registered")
+                self.error.setText("User with this name is already registered")
 
     def gotoLogin(self):
         login = LoginScreen()
@@ -320,7 +320,7 @@ class CreateAccScreen(QDialog):
         welcome_screen = WelcomeScreen()
         widget.addWidget(welcome_screen)
         widget.setCurrentIndex(widget.currentIndex() + 1)
-    
+
 
 # main
 aggregator = Aggregator()
