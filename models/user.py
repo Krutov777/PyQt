@@ -6,6 +6,12 @@ class User:
         self.login = login
         self.data_base = DataBase()
 
+    def get_login(self):
+        return self.login
+
+    def set_login(self, login):
+        self.login = login
+
     def get_user_rating_films(self):
         return self.data_base.get_user_rating_list_film(self.login)
 
@@ -17,9 +23,6 @@ class User:
 
     def signup(self, username, password):
         return self.data_base.signup(username, password)
-
-    def set_login(self, login):
-        self.login = login
 
     def get_list_films(self):
         return self.data_base.get_list_films_from_db()
