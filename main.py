@@ -35,6 +35,7 @@ class LoginScreen(QDialog):
         loadUi("UI/login.ui", self)
         self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
         self.login.clicked.connect(self.loginFunction)
+        self.back.clicked.connect(self.goto_welcome_screen)
 
     def loginFunction(self):
         user = self.emailfield.text()
@@ -57,6 +58,13 @@ class LoginScreen(QDialog):
         widget.addWidget(choiceOfAction)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
+    @staticmethod
+    def goto_welcome_screen():
+        aggregator.user.set_login('')
+        welcome_screen = WelcomeScreen()
+        widget.addWidget(welcome_screen)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
 
 class ChoiceOfAction(QDialog):
     def __init__(self):
@@ -64,6 +72,7 @@ class ChoiceOfAction(QDialog):
         loadUi("UI/choiceofaction.ui", self)
         self.listFilms.clicked.connect(self.display_list_films)
         self.listTv.clicked.connect(self.display_list_tv)
+        self.logout.clicked.connect(self.goto_welcome_screen)
 
     def display_list_films(self):
         list_films = ListFilms()
@@ -75,6 +84,13 @@ class ChoiceOfAction(QDialog):
         list_tv = ListTv()
         self.listTv.clicked.connect(self.display_list_tv)
         widget.addWidget(list_tv)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    @staticmethod
+    def goto_welcome_screen():
+        aggregator.user.set_login('')
+        welcome_screen = WelcomeScreen()
+        widget.addWidget(welcome_screen)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
 
@@ -141,7 +157,7 @@ class MoreInfoForFilm(QDialog):
         self.year.setText(str(film.year))
         self.country.setText(film.country)
         self.director.setText(film.director)
-        self.duration.setText(str(film.duration)+' min')
+        self.duration.setText(str(film.duration) + ' min')
         self.genre.setText(film.genre)
         self.budget.setText(str(film.budget) + ' $$$')
         self.rating.setText(str(film.rating))
@@ -271,6 +287,7 @@ class CreateAccScreen(QDialog):
         self.passwordfield.setEchoMode(QtWidgets.QLineEdit.Password)
         self.confirmpasswordfield.setEchoMode(QtWidgets.QLineEdit.Password)
         self.signup.clicked.connect(self.signupFunction)
+        self.back.clicked.connect(self.goto_welcome_screen)
 
     def signupFunction(self):
         user = self.emailfield.text()
@@ -297,6 +314,13 @@ class CreateAccScreen(QDialog):
         widget.addWidget(login)
         widget.setCurrentIndex(widget.currentIndex() + 1)
 
+    @staticmethod
+    def goto_welcome_screen():
+        aggregator.user.set_login('')
+        welcome_screen = WelcomeScreen()
+        widget.addWidget(welcome_screen)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+    
 
 # main
 aggregator = Aggregator()

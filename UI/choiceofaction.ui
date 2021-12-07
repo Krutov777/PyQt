@@ -57,7 +57,7 @@ background-color:qlineargradient(spread:pad, x1:0.091, y1:0.101636, x2:0.991379,
     </spacer>
    </item>
    <item row="1" column="1">
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="5,0,1,1">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="5,0,1,1,0">
      <property name="spacing">
       <number>20</number>
      </property>
@@ -134,6 +134,30 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <property name="text">
         <string>Display films</string>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignHCenter">
+      <widget class="QPushButton" name="logout">
+       <property name="minimumSize">
+        <size>
+         <width>341</width>
+         <height>51</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>400</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-radius:20px;
+background-color: rgb(170, 255, 255);
+font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Logout</string>
        </property>
       </widget>
      </item>

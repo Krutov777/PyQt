@@ -44,7 +44,7 @@
       <string notr="true">QWidget#bgwidget{
 background-color:qlineargradient(spread:pad, x1:0.091, y1:0.101636, x2:0.991379, y2:0.977, stop:0 rgba(209, 107, 165, 255), stop:1 rgba(255, 255, 255, 255));}</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
+     <layout class="QGridLayout" name="gridLayout" rowstretch="1,1,2">
       <item row="0" column="1">
        <spacer name="verticalSpacer">
         <property name="orientation">
@@ -135,14 +135,14 @@ background-color:qlineargradient(spread:pad, x1:0.091, y1:0.101636, x2:0.991379,
          <widget class="QPushButton" name="login">
           <property name="minimumSize">
            <size>
-            <width>200</width>
-            <height>40</height>
+            <width>341</width>
+            <height>51</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>200</width>
-            <height>40</height>
+            <height>400</height>
            </size>
           </property>
           <property name="styleSheet">
@@ -155,18 +155,34 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
           </property>
          </widget>
         </item>
+        <item>
+         <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item alignment="Qt::AlignHCenter">
          <widget class="QPushButton" name="create">
           <property name="minimumSize">
            <size>
-            <width>200</width>
-            <height>40</height>
+            <width>341</width>
+            <height>51</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
             <width>200</width>
-            <height>40</height>
+            <height>400</height>
            </size>
           </property>
           <property name="styleSheet">
